@@ -1,0 +1,26 @@
+{
+  "name": "mongoose-datatables",
+  "version": "0.0.1",
+  "description": "Server side dataTable request",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:archr/mongoose-datatables.git"
+  },
+  "keywords": [
+    "mongoose",
+    "datatable"
+  ],
+  "author": "Antonio Sandoval",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/archr/mongoose-datatables/issues"
+  },
+  "homepage": "https://github.com/archr/mongoose-datatables",
+  "dependencies": {
+    "debug": "^2.1.1"
+  }
+}
