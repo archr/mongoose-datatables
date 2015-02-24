@@ -14,17 +14,48 @@ describe('mongoose-datatables', function () {
     });
   });
 
-  it('find', function (done) {
+  it('no options', function (done) {
     User.dataTables({
       start: 0,
-      length: 10
-    }, function (err, info) {
-      expect(info.data.length).equal(2);
-      expect(info.recordsTotal).equal(2);
-      expect(info.recordsFiltered).equal(2);
+      length: 10,
+    }, function (err, table) {
+      expect(table.data.length).equal(2);
+      expect(table.recordsTotal).equal(2);
+      expect(table.recordsFiltered).equal(2);
       done();
     });
   });
+
+  it('find', function (done) {
+    User.dataTables({
+      start: 0,
+      length: 10,
+    }, {
+      find: {
+        username: 'berser'
+      }
+    }, function (err, table) {
+      expect(table.data[0].username).equal('berser');
+      done();
+    });
+  });
+
+  it('select', function (done) {
+    User.dataTables({
+      start: 0,
+      length: 10,
+    }, {
+      select: {
+        first_name: 1
+      }
+    }, function (err, table) {
+      expect(table.data[0].username).undefined;
+      expect(table.data[0].last_name).undefined;
+      expect(table.data[0].first_name).exist;
+      done();
+    });
+  });
+
 
   it('sort', function (done) {
     User.dataTables({
@@ -34,20 +65,37 @@ describe('mongoose-datatables', function () {
       sort: {
         username: -1
       }
-    }, function (err, info) {
-      expect(info.data[0].username).equal('berser');
+    }, function (err, table) {
+      expect(table.data[0].username).equal('berser');
       done();
     });
   });
+
+    it('search', function (done) {
+    User.dataTables({
+      start: 0,
+      length: 10,
+      search: {
+        value: 'archr'
+      }
+    }, {
+      search: ['username']
+    }, function (err, table) {
+      expect(table.data.length).equal(1);
+      expect(table.data[0].username).equal('archr');
+      done();
+    });
+  });
+
 
   it('limit', function (done) {
     User.dataTables({
       start: 0,
       length: 1,
-    }, function (err, info) {
-      expect(info.data.length).equal(1);
-      expect(info.recordsTotal).equal(2);
-      expect(info.recordsFiltered).equal(2);
+    }, function (err, table) {
+      expect(table.data.length).equal(1);
+      expect(table.recordsTotal).equal(2);
+      expect(table.recordsFiltered).equal(2);
       done();
     });
   });
