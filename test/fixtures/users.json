@@ -1,0 +1,13 @@
+{
+  "users": [
+    {
+      "first_name": "Jorge",
+      "last_name": "Sandoval",
+      "username": "archr"
+    }, {
+      "first_name": "Antonio",
+      "last_name": "Garcia",
+      "username": "berser"
+    }
+  ]
+}
