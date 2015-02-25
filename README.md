@@ -11,7 +11,7 @@ $ npm install mongoose-datatables
 
 ```javascript
 var mongoose = require(‘mongoose’);
-var dataTables = require(‘mongoose-datatables);
+var dataTables = require(‘mongoose-datatables');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
