@@ -1,0 +1,32 @@
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="/datatables/media/css/jquery.dataTables.css">
+</head>
+<body>
+  <table id="table" class="display" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+  </table>
+  <script type="text/javascript" src="/datatables/media/js/jquery.js"></script>
+  <script type="text/javascript" src="/datatables/media/js/jquery.dataTables.js"></script>
+  <script type="text/javascript">
+    $('#table').dataTable({
+      ajax: {
+        url: '/',
+        type: 'POST'
+      },
+      serverSide: true,
+      columns: [
+        {'data': 'username'},
+        {'data': 'name'},
+        {'data': 'email'}
+      ]
+    });
+  </script>
+</body>
+</html>
