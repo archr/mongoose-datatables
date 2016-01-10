@@ -2,6 +2,8 @@
 
 Server side table request.
 
+[![Build Status](https://travis-ci.org/archr/mongoose-datatables.svg)](https://travis-ci.org/archr/mongoose-datatables)
+
 ## Installation
 ```sh
 $ npm install mongoose-datatables
