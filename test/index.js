@@ -3,8 +3,6 @@ var expect = require('chai').expect;
 var User = require('./User');
 var users = require('./fixtures/users').users;
 
-
-
 describe('mongoose-datatables', function () {
   before(function (done) {
     mongoose.connect('mongodb://localhost/mongoose-datatables', function (err) {
@@ -16,21 +14,19 @@ describe('mongoose-datatables', function () {
 
   it('no options', function (done) {
     User.dataTables({
-      start: 0,
-      length: 10,
+      skip: 0,
+      limit: 10,
     }, function (err, table) {
       expect(table.data.length).equal(2);
-      expect(table.recordsTotal).equal(2);
-      expect(table.recordsFiltered).equal(2);
+      expect(table.total).equal(2);
       done();
     });
   });
 
   it('find', function (done) {
     User.dataTables({
-      start: 0,
-      length: 10,
-    }, {
+      skip: 0,
+      limit: 10,
       find: {
         username: 'berser'
       }
@@ -42,9 +38,8 @@ describe('mongoose-datatables', function () {
 
   it('select', function (done) {
     User.dataTables({
-      start: 0,
-      length: 10,
-    }, {
+      skip: 0,
+      limit: 10,
       select: {
         first_name: 1
       }
@@ -59,9 +54,8 @@ describe('mongoose-datatables', function () {
 
   it('sort', function (done) {
     User.dataTables({
-      start: 0,
-      length: 10,
-    }, {
+      skip: 0,
+      limit: 10,
       sort: {
         username: -1
       }
@@ -73,13 +67,12 @@ describe('mongoose-datatables', function () {
 
     it('search', function (done) {
     User.dataTables({
-      start: 0,
-      length: 10,
+      skip: 0,
+      limit: 10,
       search: {
-        value: 'archr'
-      }
-    }, {
-      search: ['username']
+        value: 'archr',
+        fields: ['username']
+      },
     }, function (err, table) {
       expect(table.data.length).equal(1);
       expect(table.data[0].username).equal('archr');
@@ -90,12 +83,12 @@ describe('mongoose-datatables', function () {
 
   it('limit', function (done) {
     User.dataTables({
-      start: 0,
-      length: 1,
+      skip: 0,
+      limit: 1,
     }, function (err, table) {
       expect(table.data.length).equal(1);
-      expect(table.recordsTotal).equal(2);
-      expect(table.recordsFiltered).equal(2);
+      expect(table.total).equal(2);
+      expect(table.total).equal(2);
       done();
     });
   });

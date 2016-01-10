@@ -1,6 +1,6 @@
 {
   "name": "mongoose-datatables",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "description": "Server side dataTable request",
   "main": "index.js",
   "scripts": {
@@ -20,14 +20,14 @@
     "url": "https://github.com/archr/mongoose-datatables/issues"
   },
   "homepage": "https://github.com/archr/mongoose-datatables",
-  "dependencies": {
-    "mongoose": "^3.8.23"
+  "peerDependencies": {
+    "mongoose": ">=3.8"
   },
   "devDependencies": {
     "body-parser": "^1.12.0",
     "chai": "^2.1.0",
     "express": "^4.12.0",
     "mocha": "^2.1.0",
-    "mongoose": "^3.8.23"
+    "mongoose": ">=3.8"
   }
 }

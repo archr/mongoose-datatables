@@ -28,12 +28,18 @@ mongoose.connect('mongodb://localhost/mongoose-datatables-example', function (er
 });
 
 app.post('/', function (req, res) {
-  User.dataTables(req.body, {
+  User.dataTables({
+    limit: req.body.length,
+    skip: req.body.start
   }, function (err, table) {
-    res.json(table);
+    res.json({
+      data: table.data,
+      recordsFiltered: table.total,
+      recordsTotal: table.total
+    });
   });
 });
 
 app.listen(3000, function () {
-  console.log('server running');
+  console.log('server running ...');
 });

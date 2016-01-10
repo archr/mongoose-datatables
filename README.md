@@ -1,13 +1,16 @@
 # mongoose-datatables
 
-Server side dataTable request.
+Server side table request.
 
-## Install
+## Installation
 ```sh
 $ npm install mongoose-datatables
 ```
 
-## Usage
+## Configuration
+plugin(schema, options)
+* `totalKey` (String) - Default total
+* `dataKey` (String) - Default data
 
 ```javascript
 var mongoose = require(‘mongoose’);
@@ -20,28 +23,39 @@ var UserSchema = new Schema({
   username: String
 });
 
-UserSchema.plugin(dataTables);
+UserSchema.plugin(dataTables, {
+  totalKey: 'recordsTotal',
+  dataKey: 'data'
+});
 ```
 
+## Usage
+dataTable(parmas, callback)
+
+The available parmas are:
+* `limit` (Number) - Specifies mongo limit.
+* `skip` (Number) - Specifies mongo skip.
+* `find` (Object) - Specifies selection criteria.
+* `select` (Object) - Specifies the fields to return.
+* `sort` (Object) - Specifies the order in which the query returns matching documents.
+* `search` (Object) - Search.
+* `populate` (Object) - Specifies models to populate.
+
+
 ```javascript
-function users (req, res) {
-  User.dataTables(req.body, {
+app.post('/table', (req, res) {
+  User.dataTables({
+    limit: req.body.length,
+    skip: req.body.start,
+    search: {
+      value: req.body.search.value,
+      fields: ['username']
+    },
     sort: {
       username: 1
     }
   }, function (err, table) {
-    res.json(table);
+    res.json(table); // table.total, table.data
   });
-}
+});
 ```
-
-## API
-
-dataTable(query, options, callback)
-
-The available options are:
-* `find` (Object) - Specifies selection criteria.
-* `select` (Object) - Specifies the fields to return.
-* `sort` (Object) - Specifies the order in which the query returns matching documents.
-* `search` (Array) - Search in fields.
-* `populate` (Object) - Specifies models to populate.
