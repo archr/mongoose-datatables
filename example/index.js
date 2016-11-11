@@ -34,8 +34,8 @@ app.post('/', function (req, res) {
   }, function (err, table) {
     res.json({
       data: table.data,
-      recordsFiltered: table.total,
-      recordsTotal: table.total
+      recordsFiltered: table.recordsTotal,
+      recordsTotal: table.recordsTotal
     });
   });
 });
