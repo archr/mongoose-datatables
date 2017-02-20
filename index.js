@@ -1,1 +1,1 @@
-module.exports = require('./lib/mongoose-datatables');
+module.exports = require('./lib/mongoose-datatables')

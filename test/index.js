@@ -1,27 +1,42 @@
-var mongoose = require('mongoose');
-var expect = require('chai').expect;
-var User = require('./User');
-var users = require('./fixtures/users').users;
+var mongoose = require('mongoose')
+var expect = require('chai').expect
+var User = require('./User')
+var users = require('./fixtures/users').users
+
+mongoose.Promise = global.Promise
 
 describe('mongoose-datatables', function () {
   before(function (done) {
     mongoose.connect('mongodb://localhost/mongoose-datatables', function (err) {
       User.remove({}, function (err) {
-        User.create(users, done);
-      });
-    });
-  });
+        User.create(users, done)
+      })
+    })
+  })
+
+  it('callback compatibily', function (done) {
+    User
+      .dataTables({
+        skip: 0,
+        limit: 10,
+      }, (err, table) => {
+        expect(table.data.length).equal(2)
+        expect(table.total).equal(2)
+        done()
+      })
+  })
 
   it('no options', function (done) {
-    User.dataTables({
-      skip: 0,
-      limit: 10,
-    }, function (err, table) {
-      expect(table.data.length).equal(2);
-      expect(table.total).equal(2);
-      done();
-    });
-  });
+    User
+      .dataTables({
+        skip: 0,
+        limit: 10,
+      }).then(table => {
+        expect(table.data.length).equal(2)
+        expect(table.total).equal(2)
+        done()
+      }).catch(done)
+  })
 
   it('find', function (done) {
     User.dataTables({
@@ -30,11 +45,11 @@ describe('mongoose-datatables', function () {
       find: {
         username: 'berser'
       }
-    }, function (err, table) {
-      expect(table.data[0].username).equal('berser');
-      done();
-    });
-  });
+    }).then(table => {
+      expect(table.data[0].username).equal('berser')
+      done()
+    }).catch(done)
+  })
 
   it('select', function (done) {
     User.dataTables({
@@ -43,13 +58,13 @@ describe('mongoose-datatables', function () {
       select: {
         first_name: 1
       }
-    }, function (err, table) {
-      expect(table.data[0].username).undefined;
-      expect(table.data[0].last_name).undefined;
-      expect(table.data[0].first_name).exist;
-      done();
-    });
-  });
+    }).then(table => {
+      expect(table.data[0].username).undefined
+      expect(table.data[0].last_name).undefined
+      expect(table.data[0].first_name).exist
+      done()
+    }).catch(done)
+  })
 
 
   it('sort', function (done) {
@@ -59,13 +74,13 @@ describe('mongoose-datatables', function () {
       sort: {
         username: -1
       }
-    }, function (err, table) {
-      expect(table.data[0].username).equal('berser');
-      done();
-    });
-  });
+    }).then(table => {
+      expect(table.data[0].username).equal('berser')
+      done()
+    }).catch(done)
+  })
 
-    it('search', function (done) {
+  it('search', function (done) {
     User.dataTables({
       skip: 0,
       limit: 10,
@@ -73,23 +88,23 @@ describe('mongoose-datatables', function () {
         value: 'archr',
         fields: ['username']
       },
-    }, function (err, table) {
-      expect(table.data.length).equal(1);
-      expect(table.data[0].username).equal('archr');
-      done();
-    });
-  });
-
+    }).then(table => {
+      expect(table.data.length).equal(1)
+      expect(table.data[0].username).equal('archr')
+      done()
+    }).catch(done)
+  })
 
   it('limit', function (done) {
     User.dataTables({
       skip: 0,
       limit: 1,
-    }, function (err, table) {
-      expect(table.data.length).equal(1);
-      expect(table.total).equal(2);
-      expect(table.total).equal(2);
-      done();
-    });
-  });
-});
+    }).then(table => {
+      expect(table.data.length).equal(1)
+      expect(table.total).equal(2)
+      expect(table.total).equal(2)
+      done()
+    }).catch(done)
+  })
+})
+

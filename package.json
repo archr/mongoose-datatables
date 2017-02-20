@@ -1,8 +1,11 @@
 {
   "name": "mongoose-datatables",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Server side dataTable request",
   "main": "index.js",
+  "engines": {
+    "node": ">=4"
+  },
   "scripts": {
     "test": "mocha"
   },
