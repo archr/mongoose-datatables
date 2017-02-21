@@ -9,40 +9,23 @@ Server side table request.
 $ npm install mongoose-datatables
 ```
 
-## Configuration
-plugin(schema, options)
-* `totalKey` (String) - Default total
-* `dataKey` (String) - Default data
+## Usage
+Configure the plugin in your model
 
 ```javascript
-var mongoose = require(‘mongoose’);
-var dataTables = require(‘mongoose-datatables’);
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose')
+var dataTables = require('mongoose-datatables')
+var Schema = mongoose.Schema
 
 var UserSchema = new Schema({
   first_name: String,
   last_name: String,
   username: String
-});
+})
 
-UserSchema.plugin(dataTables, {
-  totalKey: 'recordsTotal',
-  dataKey: 'data'
-});
+UserSchema.plugin(dataTables)
 ```
-
-## Usage
-dataTable(parmas, callback)
-
-The available parmas are:
-* `limit` (Number) - Specifies mongo limit.
-* `skip` (Number) - Specifies mongo skip.
-* `find` (Object) - Specifies selection criteria.
-* `select` (Object) - Specifies the fields to return.
-* `sort` (Object) - Specifies the order in which the query returns matching documents.
-* `search` (Object) - Search.
-* `populate` (Object) - Specifies models to populate.
-
+Use plugin in your route
 
 ```javascript
 app.post('/table', (req, res) {
@@ -56,8 +39,26 @@ app.post('/table', (req, res) {
     sort: {
       username: 1
     }
-  }, function (err, table) {
+  }).then(function (table) {
     res.json(table); // table.total, table.data
-  });
+  })
 });
 ```
+
+## API
+
+### plugin([options])
+* `options.totalKey` (String) - Default total
+* `options.dataKey` (String) - Default data
+
+### dataTables([options], [callback])
+* `options.limit` (Number) - Specifies mongo limit.
+* `options.skip` (Number) - Specifies mongo skip.
+* `options.find` (Object) - Specifies selection criteria.
+* `options.select` (Object) - Specifies the fields to return.
+* `options.sort` (Object) - Specifies the order in which the query returns matching documents.
+* `options.search` (Object) - Search.
+* `options.populate` (Object) - Specifies models to populate.
+
+## License
+MIT 

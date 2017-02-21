@@ -3,8 +3,9 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser')
 var User = require('./models/User');
 
-var app = express();
+mongoose.Promise = global.Promise
 
+var app = express();
 
 app.use(express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/public'));
@@ -31,15 +32,15 @@ app.post('/', function (req, res) {
   User.dataTables({
     limit: req.body.length,
     skip: req.body.start
-  }, function (err, table) {
+  }).then(function (table) {
     res.json({
       data: table.data,
-      recordsFiltered: table.recordsTotal,
-      recordsTotal: table.recordsTotal
+      recordsFiltered: table.total,
+      recordsTotal: table.total
     });
   });
 });
 
 app.listen(3000, function () {
-  console.log('server running ...');
+  console.log('server running on port 3000');
 });
