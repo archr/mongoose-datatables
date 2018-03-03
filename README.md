@@ -50,6 +50,7 @@ app.post('/table', (req, res) {
 ### plugin([options])
 * `options.totalKey` (String) - Default total
 * `options.dataKey` (String) - Default data
+* `options.formatters` (Object) - Specifies multiple formatters that can be used in the query
 
 ### dataTables([options], [callback])
 * `options.limit` (Number) - Specifies mongo limit.
@@ -59,6 +60,45 @@ app.post('/table', (req, res) {
 * `options.sort` (Object) - Specifies the order in which the query returns matching documents.
 * `options.search` (Object) - Search.
 * `options.populate` (Object) - Specifies models to populate.
+* `options.formatter` (String|Function) - Specifies formatter to use after the query.
+
+
+### Formaters
+
+At query level
+```javascript
+User.dataTables({
+  limit: 20,
+  formatter: function(user) {
+    return {
+      name: user.first_name + ' ' + user.last_name
+    }
+  }
+})
+```
+
+At schema level
+```javascript
+UserSchema.plugin(dataTables, {
+  formatters: {
+    toPublic : function (user) {
+      return {
+        name: user.first_name + ' ' + user.last_name
+      }
+    }
+  }
+});
+```
+
+Use by doing this at query level
+```javascript
+User.dataTables({
+  limit: 20,
+  formatter: 'toPublic',
+})
+```
+**Note:** if you use formatters you get an array of objects on data, instead of the model instance.
+
 
 ## License
 MIT 
