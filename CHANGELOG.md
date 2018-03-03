@@ -1,3 +1,6 @@
+## 3.1.0
+- Added formatters
+
 ## 3.0.0
 - Added promises
 
