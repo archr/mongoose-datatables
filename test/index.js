@@ -10,11 +10,11 @@ mongoose.Promise = global.Promise
 describe('mongoose-datatables', function () {
   before(function (done) {
     mongoose.connect('mongodb://localhost/mongoose-datatables', function (err) {
-      Promise.all([User.remove({}), Post.remove({})]).then(function () {
-        Promise.all([User.create(users), Post.create(posts)]).then(function () {
-          done()
-        })
-      })
+      User.remove({})
+      .then(function () { return Post.remove({}) })
+      .then(function () { return User.create(users) })
+      .then(function () { return Post.create(posts) })
+      .then(function () { done() })
     })
   })
 
