@@ -1,0 +1,13 @@
+{
+  "posts": [
+    {
+      "title": "Top Node Links of the Week",
+      "description": "npm v5.7.0, Promise.prototype.finally() support, Electron 2.0.0-beta.1 and more...",
+      "url": "https://medium.com/dailyjs/top-node-links-of-the-week-52e54c4f35d0"
+    }, {
+      "title": "React’s new Context API",
+      "description": "It’s way more ergonomic, it’s no longer “experimental,” and it’s now a first-class API! OH, AND IT USES A RENDER PROP!",
+      "url": "https://medium.com/dailyjs/reacts-%EF%B8%8F-new-context-api-70c9fe01596b"
+    }
+  ]
+}

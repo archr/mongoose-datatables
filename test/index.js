@@ -1,15 +1,19 @@
 var mongoose = require('mongoose')
 var expect = require('chai').expect
 var User = require('./User')
+var Post = require('./Post')
 var users = require('./fixtures/users').users
+var posts = require('./fixtures/posts').posts
 
 mongoose.Promise = global.Promise
 
 describe('mongoose-datatables', function () {
   before(function (done) {
     mongoose.connect('mongodb://localhost/mongoose-datatables', function (err) {
-      User.remove({}, function (err) {
-        User.create(users, done)
+      Promise.all([User.remove({}), Post.remove({})]).then(function () {
+        Promise.all([User.create(users), Post.create(posts)]).then(function () {
+          done()
+        })
       })
     })
   })
@@ -104,6 +108,58 @@ describe('mongoose-datatables', function () {
       expect(table.total).equal(2)
       done()
     }).catch(done)
+  })
+
+  describe('Datakey and totalKey', function () {
+    it('no options', function (done) {
+      Post.dataTables({}).then(table => {
+        expect(table.amount).equal(2)
+        expect(table.posts[0].title).equal('Top Node Links of the Week')
+        expect(table.posts[1].title).equal('React’s new Context API')
+        done()
+      }).catch(done)
+    })
+
+    it('find', function (done) {
+      Post.dataTables({
+        find: {
+          title: 'Top Node Links of the Week'
+        }
+      }).then(table => {
+        expect(table.posts.length).equal(1)
+        expect(table.amount).equal(1)
+        expect(table.posts[0].title).equal('Top Node Links of the Week')
+        done()
+      }).catch(done)
+    })
+
+    it('should call formatter from query', function (done) {
+      Post.dataTables({
+        formatter: function(post) {
+          return {
+            item: post.title
+          }
+        }
+      }).then(table => {
+        expect(table.posts.length).equal(2)
+        expect(table.amount).equal(2)
+        expect(table.posts[0].item).equal('Top Node Links of the Week')
+        expect(table.posts[1].item).equal('React’s new Context API')
+        done()
+      }).catch(done)
+    })
+
+    it('formatter from options', function (done) {
+      Post.dataTables({
+        formatter: 'toPublic',
+      }).then(table => {
+        expect(table.posts.length).equal(2)
+        expect(table.amount).equal(2)
+        expect(table.posts[0].item).equal('Top Node Links of the Week')
+        expect(table.posts[1].item).equal('React’s new Context API')
+        done()
+      }).catch(done)
+    })
   })
 
   describe('Formatters', function () {
