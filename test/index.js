@@ -106,30 +106,54 @@ describe('mongoose-datatables', function () {
     }).catch(done)
   })
 
-  it('formatter from call', function (done) {
-    User.dataTables({
-      formatter: function(user) {
-        return {
-          name: user.first_name + ' ' + user.last_name
+  describe('Formatters', function () {
+    it('should call formatter from query', function (done) {
+      User.dataTables({
+        formatter: function(user) {
+          return {
+            name: user.first_name + ' ' + user.last_name
+          }
         }
-      }
-    }).then(table => {
-      expect(table.data.length).equal(2)
-      expect(table.data[0].name).equal('Jorge Sandoval')
-      expect(table.data[1].name).equal('Antonio Garcia')
-      done()
-    }).catch(done)
-  })
+      }).then(table => {
+        expect(table.data.length).equal(2)
+        expect(table.data[0].name).equal('Jorge Sandoval')
+        expect(table.data[1].name).equal('Antonio Garcia')
+        done()
+      }).catch(done)
+    })
 
-  it('formatter from options', function (done) {
-    User.dataTables({
-      formatter: 'toPublic',
-    }).then(table => {
-      expect(table.data.length).equal(2)
-      expect(table.data[0].name).equal('Jorge Sandoval')
-      expect(table.data[1].name).equal('Antonio Garcia')
-      done()
-    }).catch(done)
+    it('formatter from options', function (done) {
+      User.dataTables({
+        formatter: 'toPublic',
+      }).then(table => {
+        expect(table.data.length).equal(2)
+        expect(table.data[0].name).equal('Jorge Sandoval')
+        expect(table.data[1].name).equal('Antonio Garcia')
+        done()
+      }).catch(done)
+    })
+
+    it('should throw error for invalid string name for a formatter', function (done) {
+      User.dataTables({
+        formatter: 'invalid'
+      }).then(table => {
+        done(new Error('Error wasn\'t throw for invalid formatter'))
+      }).catch(function (err) {
+        expect(err.message).equal('Invalid formatter')
+        done()
+      })
+    })
+
+    it('should throw error for invalid formatter type', function (done) {
+      User.dataTables({
+        formatter: {}
+      }).then(table => {
+        done(new Error('Error wasn\'t throw for invalid formatter'))
+      }).catch(function (err) {
+        expect(err.message).equal('Invalid formatter')
+        done()
+      })
+    })
   })
 })
 
