@@ -66,7 +66,6 @@ describe('mongoose-datatables', function () {
     }).catch(done)
   })
 
-
   it('sort', function (done) {
     User.dataTables({
       skip: 0,
@@ -103,6 +102,32 @@ describe('mongoose-datatables', function () {
       expect(table.data.length).equal(1)
       expect(table.total).equal(2)
       expect(table.total).equal(2)
+      done()
+    }).catch(done)
+  })
+
+  it('formatter from call', function (done) {
+    User.dataTables({
+      formatter: function(user) {
+        return {
+          name: user.first_name + ' ' + user.last_name
+        }
+      }
+    }).then(table => {
+      expect(table.data.length).equal(2)
+      expect(table.data[0].name).equal('Jorge Sandoval')
+      expect(table.data[1].name).equal('Antonio Garcia')
+      done()
+    }).catch(done)
+  })
+
+  it('formatter from options', function (done) {
+    User.dataTables({
+      formatter: 'toPublic',
+    }).then(table => {
+      expect(table.data.length).equal(2)
+      expect(table.data[0].name).equal('Jorge Sandoval')
+      expect(table.data[1].name).equal('Antonio Garcia')
       done()
     }).catch(done)
   })
