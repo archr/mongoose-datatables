@@ -9,7 +9,10 @@ var app = express();
 
 app.use(express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 
 mongoose.connect('mongodb://localhost/mongoose-datatables-example', function (err) {
@@ -31,7 +34,9 @@ mongoose.connect('mongodb://localhost/mongoose-datatables-example', function (er
 app.post('/', function (req, res) {
   User.dataTables({
     limit: req.body.length,
-    skip: req.body.start
+    skip: req.body.start,
+    order: req.body.order,
+    columns: req.body.columns
   }).then(function (table) {
     res.json({
       data: table.data,

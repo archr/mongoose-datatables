@@ -58,6 +58,7 @@ app.post('/table', (req, res) {
 * `options.find` (Object) - Specifies selection criteria.
 * `options.select` (Object) - Specifies the fields to return.
 * `options.sort` (Object) - Specifies the order in which the query returns matching documents.
+* `options.order`, `options.columns` (Array), (Array) - Specifies the order in which the query returns matching documents and replace the sort option
 * `options.search` (Object) - Search.
 * `options.populate` (Object) - Specifies models to populate.
 * `options.formatter` (String|Function) - Specifies formatter to use after the query.
