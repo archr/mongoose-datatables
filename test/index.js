@@ -83,6 +83,27 @@ describe('mongoose-datatables', function () {
     }).catch(done)
   })
 
+  it('sort using order and columns params', function (done) {
+    User.dataTables({
+      skip: 0,
+      limit: 10,
+      columns: [
+        { data: 'first_name' },
+        { data: 'last_name' },
+        { data: 'username' },
+      ],
+      order: [
+        {
+          column: 0,
+          dir: 'asc'
+        }
+      ]
+    }).then(table => {
+      expect(table.data[0].first_name).equal('Antonio')
+      done()
+    }).catch(done)
+  });
+
   it('search', function (done) {
     User.dataTables({
       skip: 0,
