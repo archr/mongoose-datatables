@@ -1,4 +1,7 @@
 ## 3.1.0
+- Added sort by order
+
+## 3.1.0
 - Added formatters
 
 ## 3.0.0
